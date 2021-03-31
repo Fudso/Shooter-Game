@@ -13,5 +13,8 @@ UCLASS()
 class SHOOTERGAME_API ASGGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	ASGGameModeBase();
 	
 };
