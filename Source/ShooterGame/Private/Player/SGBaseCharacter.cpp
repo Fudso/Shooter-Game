@@ -5,11 +5,16 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 
+#include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/MovementComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
+
+#include "CustomComponents/SGCharacterMovementComponent.h"
 
 // Sets default values
-ASGBaseCharacter::ASGBaseCharacter()
+ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
+	: Super(ObjInit.SetDefaultSubobjectClass<USGCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,21 +25,18 @@ ASGBaseCharacter::ASGBaseCharacter()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
-	
 }
 
 // Called when the game starts or when spawned
 void ASGBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void ASGBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -44,13 +46,23 @@ void ASGBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ASGBaseCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASGBaseCharacter::MoveRight);
-	PlayerInputComponent->BindAxis("LookUp", this, &ASGBaseCharacter::LookUp);
-	PlayerInputComponent->BindAxis("TurnAround", this, &ASGBaseCharacter::TurnAround);
+	PlayerInputComponent->BindAxis("LookUp", this, &ASGBaseCharacter::AddControllerPitchInput);
+	PlayerInputComponent->BindAxis("TurnAround", this, &ASGBaseCharacter::AddControllerYawInput);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASGBaseCharacter::Jump);
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASGBaseCharacter::OnStartRunning);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &ASGBaseCharacter::OnFinishRunning);
 	
+}
+
+bool ASGBaseCharacter::IsRunning() const
+{
+	return bWantRunning && bIsMoveForward && !GetVelocity().IsZero();
 }
 
 void ASGBaseCharacter::MoveForward(float Amount)
 {
+	bIsMoveForward = Amount >= 0;
+	
 	AddMovementInput(GetActorForwardVector(), Amount);
 }
 
@@ -59,12 +71,12 @@ void ASGBaseCharacter::MoveRight(float Amount)
 	AddMovementInput(GetActorRightVector(), Amount);
 }
 
-void ASGBaseCharacter::LookUp(float Amount)
+void ASGBaseCharacter::OnStartRunning()
 {
-	AddControllerPitchInput(Amount);
+	bWantRunning = true;
 }
 
-void ASGBaseCharacter::TurnAround(float Amount)
+void ASGBaseCharacter::OnFinishRunning()
 {
-	AddControllerYawInput(Amount);
+	bWantRunning = false;
 }

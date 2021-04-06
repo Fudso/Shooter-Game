@@ -9,6 +9,8 @@
 class UCameraComponent;
 class USpringArmComponent;
 
+
+
 UCLASS()
 class SHOOTERGAME_API ASGBaseCharacter : public ACharacter
 {
@@ -16,13 +18,18 @@ class SHOOTERGAME_API ASGBaseCharacter : public ACharacter
 
 public:
 	// Sets default values for this character's properties
-	ASGBaseCharacter();
+
+	ASGBaseCharacter(const FObjectInitializer& ObjInit);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USpringArmComponent* SpringArmComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UCameraComponent* CameraComponent;
+
+	
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool IsRunning() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,12 +42,17 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	
+private:
+	bool bIsMoveForward = false;
+	bool bWantRunning = false;
+	
+	
 
 private:
 	void MoveForward(float Amount);
 	void MoveRight(float Amount);
-
-	void LookUp(float Amount);
-	void TurnAround(float Amount);
+	void OnStartRunning();
+	void OnFinishRunning();
 
 };
