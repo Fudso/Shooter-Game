@@ -34,18 +34,19 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UTextRenderComponent* HealthTextRenderComponent;
-	
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-	bool IsRunning() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-	float GetCharacterDirection();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool IsRunning() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	float GetCharacterDirection();
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -58,11 +59,11 @@ private:
 	bool bWantRunning = false;
 	
 	
-
 private:
 	void MoveForward(float Amount);
 	void MoveRight(float Amount);
 	void OnStartRunning();
 	void OnFinishRunning();
+	void OnDeath();
 
 };

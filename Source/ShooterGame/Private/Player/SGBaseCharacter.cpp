@@ -38,6 +38,8 @@ ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
 void ASGBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	HealthComponent->OnDeath.AddUObject(this, &ASGBaseCharacter::OnDeath);
 }
 
 // Called every frame
@@ -110,3 +112,12 @@ void ASGBaseCharacter::OnFinishRunning()
 {
 	bWantRunning = false;
 }
+
+
+void ASGBaseCharacter::OnDeath()
+{
+	
+}
+
+
+

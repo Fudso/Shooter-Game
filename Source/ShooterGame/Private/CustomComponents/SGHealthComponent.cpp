@@ -5,7 +5,6 @@
 
 #include "GameFramework/Actor.h"
 
-DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All)
 
 // Sets default values for this component's properties
 USGHealthComponent::USGHealthComponent()
@@ -42,6 +41,11 @@ float USGHealthComponent::GetHealth() const
 	return Health;
 }
 
+bool USGHealthComponent::IsDead() const
+{
+	return Health <= 0.0f;
+}
+
 void USGHealthComponent::OnTakeAnyDamage(
 	AActor* DamagedActor, 
 	float Damage,
@@ -49,7 +53,15 @@ void USGHealthComponent::OnTakeAnyDamage(
 	AController* InstigatedBy, 
 	AActor* DamageCauser)
 {
-	Health -= Damage;
+	if (Damage <= 0.0f && IsDead())
+	{
+		return;
+	}
+	
+	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
 
-	UE_LOG(LogHealthComponent, Display, TEXT("Damage: %f"), Damage);
+	if (IsDead())
+	{
+		OnDeath.Broadcast();
+	}
 }
