@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool IsRunning() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	float GetCharacterDirection();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

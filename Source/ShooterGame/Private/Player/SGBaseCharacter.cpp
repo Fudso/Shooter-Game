@@ -59,6 +59,26 @@ bool ASGBaseCharacter::IsRunning() const
 	return bWantRunning && bIsMoveForward && !GetVelocity().IsZero();
 }
 
+float ASGBaseCharacter::GetCharacterDirection()
+{
+	const auto Velocity = GetVelocity();
+
+	if (Velocity.IsZero())
+	{
+		return 0.0f;
+	}
+
+	const auto VelocityNormal = Velocity.GetSafeNormal();
+	const auto ForwardVector = GetActorForwardVector();
+	
+	const auto AngleBetween = FMath::Acos(FVector::DotProduct(ForwardVector, VelocityNormal));
+	const auto CrossProduct = FVector::CrossProduct(ForwardVector, VelocityNormal);
+	const auto Degrees = FMath::RadiansToDegrees(AngleBetween);
+
+	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
+	
+}
+
 void ASGBaseCharacter::MoveForward(float Amount)
 {
 	bIsMoveForward = Amount >= 0;
