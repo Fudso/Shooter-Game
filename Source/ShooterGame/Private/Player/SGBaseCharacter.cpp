@@ -5,12 +5,14 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/TextRenderComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/MovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 
 #include "CustomComponents/SGCharacterMovementComponent.h"
+#include "CustomComponents/SGHealthComponent.h"
 
 // Sets default values
 ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
@@ -25,6 +27,11 @@ ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	HealthComponent = CreateDefaultSubobject<USGHealthComponent>("HealthComponent");
+
+	HealthTextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>("HealthTextRenderComponent");
+	HealthTextRenderComponent->SetupAttachment(GetRootComponent());
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +44,9 @@ void ASGBaseCharacter::BeginPlay()
 void ASGBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	const auto Health = HealthComponent->GetHealth();
+	HealthTextRenderComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
 
 // Called to bind functionality to input
