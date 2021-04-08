@@ -60,8 +60,8 @@ public:
 private:
 	bool bIsMoveForward = false;
 	bool bWantRunning = false;
-	
-	
+
+
 private:
 	void MoveForward(float Amount);
 	void MoveRight(float Amount);

@@ -38,11 +38,35 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0", ClampMax = "100.0"))
 	float MaxHealth = 100.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health")
+	bool UseAutoHeal = true;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health")
+	float HealDelay = 3.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health")
+	float HealUpdateTime = 0.3f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health")
+	float AutoHealValue = 1.0;
+
+	
 private:
 	float Health = 0.0f;
+
+	FTimerHandle AutoHealDelayTimerHandle;
+	FTimerHandle AutoHealUpdateTimerHandle;
 
 private:
 	UFUNCTION()
 	void OnTakeAnyDamage(
 		AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
+
+	void AutoHeal(float PrevHealth, float CurrentHealth);
+
+	UFUNCTION()
+	void OnAutoHealDelayTimeout();
+
+	UFUNCTION()
+	void OnAutoHealUpdateTimeout();
 };

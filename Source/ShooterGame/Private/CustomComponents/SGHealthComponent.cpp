@@ -33,7 +33,6 @@ void USGHealthComponent::BeginPlay()
 		OwnerActor->OnTakeAnyDamage.AddDynamic(this, &USGHealthComponent::OnTakeAnyDamage);
 	}
 	
-	
 }
 
 float USGHealthComponent::GetHealth() const
@@ -49,6 +48,8 @@ void USGHealthComponent::SetHealth(float fHealth)
 	{
 		return;
 	}
+
+	AutoHeal(Health, fHealth);
 	
 	Health = fHealth;
 	
@@ -80,4 +81,63 @@ void USGHealthComponent::OnTakeAnyDamage(
 	{
 		OnDeath.Broadcast();
 	}
+}
+
+void USGHealthComponent::AutoHeal(float PrevHealth, float CurrentHealth)
+{
+	auto World = GetWorld();
+	
+	if (!UseAutoHeal || !World || CurrentHealth >= PrevHealth)
+	{
+		return;;
+	}
+
+	auto& TimerManager = World->GetTimerManager();
+
+	TimerManager.ClearTimer(AutoHealDelayTimerHandle);
+	TimerManager.ClearTimer(AutoHealUpdateTimerHandle);
+
+	if (CurrentHealth <= 0 || CurrentHealth >= MaxHealth)
+	{
+		return;
+	}
+
+	if (CurrentHealth < PrevHealth)
+	{
+		TimerManager.SetTimer(
+			AutoHealDelayTimerHandle,
+			this,
+			&USGHealthComponent::OnAutoHealDelayTimeout, 
+			HealDelay
+		);
+	}
+}
+
+
+void USGHealthComponent::OnAutoHealDelayTimeout()
+{
+	auto World = GetWorld();
+
+	if (!World)
+	{
+		return;;
+	}
+	
+	auto& TimerManager = World->GetTimerManager();
+	
+	TimerManager.SetTimer(
+		AutoHealUpdateTimerHandle,
+		this,
+		&USGHealthComponent::OnAutoHealUpdateTimeout,
+		HealUpdateTime,
+		true
+	);
+}
+
+
+void USGHealthComponent::OnAutoHealUpdateTimeout()
+{
+	const float CurrentHealth = Health + AutoHealValue;
+
+	SetHealth(CurrentHealth);
 }
