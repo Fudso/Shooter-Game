@@ -116,7 +116,12 @@ void ASGBaseCharacter::OnFinishRunning()
 
 void ASGBaseCharacter::OnDeath()
 {
-	
+	PlayAnimMontage(DeathAnimation);
+
+	auto CharacterMovementPtr = GetCharacterMovement();
+	CharacterMovementPtr->DisableMovement();
+
+	SetLifeSpan(5.0f);
 }
 
 

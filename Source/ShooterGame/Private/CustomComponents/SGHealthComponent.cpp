@@ -53,7 +53,7 @@ void USGHealthComponent::OnTakeAnyDamage(
 	AController* InstigatedBy, 
 	AActor* DamageCauser)
 {
-	if (Damage <= 0.0f && IsDead())
+	if (Damage <= 0.0f || IsDead())
 	{
 		return;
 	}
