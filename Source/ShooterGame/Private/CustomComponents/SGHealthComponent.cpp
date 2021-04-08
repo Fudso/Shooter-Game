@@ -24,7 +24,7 @@ void USGHealthComponent::BeginPlay()
 
 	// ...
 
-	Health = MaxHealth;
+	SetHealth(MaxHealth);
 
 	auto OwnerActor = GetOwner();
 
@@ -39,6 +39,20 @@ void USGHealthComponent::BeginPlay()
 float USGHealthComponent::GetHealth() const
 {
 	return Health;
+}
+
+void USGHealthComponent::SetHealth(float fHealth)
+{
+	fHealth = FMath::Clamp(fHealth, 0.0f, MaxHealth);
+	
+	if (FMath::IsNearlyEqual(Health, fHealth))
+	{
+		return;
+	}
+	
+	Health = fHealth;
+	
+	OnHealthChanged.Broadcast(Health);
 }
 
 bool USGHealthComponent::IsDead() const
@@ -57,8 +71,10 @@ void USGHealthComponent::OnTakeAnyDamage(
 	{
 		return;
 	}
+
+	const float CurrentHealth = Health - Damage;
 	
-	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
+	SetHealth(CurrentHealth);
 
 	if (IsDead())
 	{

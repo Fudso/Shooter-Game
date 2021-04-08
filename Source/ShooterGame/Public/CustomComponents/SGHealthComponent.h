@@ -8,6 +8,7 @@
 #include "SGHealthComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnDeath)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float)
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTERGAME_API USGHealthComponent : public UActorComponent
@@ -24,12 +25,14 @@ protected:
 
 public:
 	float GetHealth() const;
+	void SetHealth(float fHealth);
 
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const;
 
 public:
 	FOnDeath OnDeath;
+	FOnHealthChanged OnHealthChanged;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0", ClampMax = "100.0"))

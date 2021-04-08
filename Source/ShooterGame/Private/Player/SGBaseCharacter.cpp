@@ -40,15 +40,15 @@ void ASGBaseCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	HealthComponent->OnDeath.AddUObject(this, &ASGBaseCharacter::OnDeath);
+	HealthComponent->OnHealthChanged.AddUObject(this, &ASGBaseCharacter::OnHealthChanged);
+
+	OnHealthChanged(HealthComponent->GetHealth());
 }
 
 // Called every frame
 void ASGBaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	const auto Health = HealthComponent->GetHealth();
-	HealthTextRenderComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
 
 // Called to bind functionality to input
@@ -125,4 +125,7 @@ void ASGBaseCharacter::OnDeath()
 }
 
 
-
+void ASGBaseCharacter::OnHealthChanged(float Health)
+{
+	HealthTextRenderComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
+}
