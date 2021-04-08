@@ -8,8 +8,10 @@
 #include "Components/TextRenderComponent.h"
 
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/Controller.h"
 #include "GameFramework/MovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
+
 
 #include "CustomComponents/SGCharacterMovementComponent.h"
 #include "CustomComponents/SGHealthComponent.h"
@@ -122,6 +124,11 @@ void ASGBaseCharacter::OnDeath()
 	CharacterMovementPtr->DisableMovement();
 
 	SetLifeSpan(5.0f);
+
+	if (Controller)
+	{
+		Controller->ChangeState(NAME_Spectating);
+	}
 }
 
 
