@@ -38,6 +38,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathAnimation;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamageVelocity = FVector2D(900.0f, 1500.0f);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	FVector2D LandedDamage = FVector2D(10.0f, 100.0f);
 
 protected:
 	// Called when the game starts or when spawned
@@ -70,4 +75,7 @@ private:
 	void OnDeath();
 	void OnHealthChanged(float Health);
 
+	UFUNCTION()
+	void OnGroundLanded(const FHitResult& HitResult);
+	
 };

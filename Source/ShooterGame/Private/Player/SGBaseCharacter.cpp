@@ -41,6 +41,8 @@ void ASGBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	LandedDelegate.AddDynamic(this, &ASGBaseCharacter::OnGroundLanded);
+	
 	HealthComponent->OnDeath.AddUObject(this, &ASGBaseCharacter::OnDeath);
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASGBaseCharacter::OnHealthChanged);
 
@@ -135,4 +137,19 @@ void ASGBaseCharacter::OnDeath()
 void ASGBaseCharacter::OnHealthChanged(float Health)
 {
 	HealthTextRenderComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
+}
+
+void ASGBaseCharacter::OnGroundLanded(const FHitResult& HitResult)
+{
+	const auto fallVelocityZ = -GetCharacterMovement()->Velocity.Z;
+
+	if (fallVelocityZ < LandedDamageVelocity.X)
+	{
+		return;
+	}
+
+	const auto FinalDamage = FMath::GetMappedRangeValueClamped(
+		LandedDamageVelocity, LandedDamage, fallVelocityZ);
+
+	TakeDamage(FinalDamage, FDamageEvent(), nullptr, nullptr);
 }
