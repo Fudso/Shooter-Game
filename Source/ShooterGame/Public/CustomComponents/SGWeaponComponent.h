@@ -17,7 +17,7 @@ public:
 	// Sets default values for this component's properties
 	USGWeaponComponent();
 
-	void Fire();
+	virtual void Fire();
 	
 protected:
 	// Called when the game starts

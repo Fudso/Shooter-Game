@@ -12,7 +12,6 @@ USGWeaponComponent::USGWeaponComponent()
 
 }
 
-
 void USGWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -35,6 +34,7 @@ void USGWeaponComponent::SpawnWeapon()
 
 	FAttachmentTransformRules AttachmentRule(EAttachmentRule::SnapToTarget, false);
 	CurrentWeapon->AttachToComponent(Character->GetMesh(), AttachmentRule, WeaponAttachPointName);
+	CurrentWeapon->SetOwner(Character);
 }
 
 void USGWeaponComponent::Fire()
