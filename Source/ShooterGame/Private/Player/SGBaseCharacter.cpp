@@ -16,6 +16,7 @@
 #include "CustomComponents/SGCharacterMovementComponent.h"
 #include "CustomComponents/SGHealthComponent.h"
 #include "CustomComponents/SGWeaponComponent.h"
+#include "Components/CapsuleComponent.h"
 
 ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
 	: Super(ObjInit.SetDefaultSubobjectClass<USGCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -135,6 +136,8 @@ void ASGBaseCharacter::OnDeath()
 	{
 		Controller->ChangeState(NAME_Spectating);
 	}
+
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 }
 
 
