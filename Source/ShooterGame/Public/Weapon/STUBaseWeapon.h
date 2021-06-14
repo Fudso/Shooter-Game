@@ -16,18 +16,27 @@ class SHOOTERGAME_API ASTUBaseWeapon : public AActor
 public:	
 	ASTUBaseWeapon();
 
+	virtual void StartFire();
+	virtual void StopFire();
+	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USkeletalMeshComponent* WeaponMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
 	FName MuzzleSocketName = "MuzzleSocket";
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
 	float TraceMaxDistance = 1500.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
 	float DamageAmount = 10.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
+	float TimeBetweenShots = 0.1f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
+	float BulletSpread = 1.5f;
 
 	virtual void BeginPlay() override;
 
@@ -39,7 +48,7 @@ protected:
 	void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
 	void MakeDamage(const FHitResult& HitResult);
 	
-public:
-	virtual void Fire();
+private:
+	FTimerHandle ShotTimerHandle;
 
 };

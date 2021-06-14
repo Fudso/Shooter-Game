@@ -37,10 +37,17 @@ void USGWeaponComponent::SpawnWeapon()
 	CurrentWeapon->SetOwner(Character);
 }
 
-void USGWeaponComponent::Fire()
+
+void USGWeaponComponent::StartFire()
 {
 	if (!CurrentWeapon)
 		return;
+	CurrentWeapon->StartFire();
+}
 
-	CurrentWeapon->Fire();
+void USGWeaponComponent::StopFire()
+{
+	if (!CurrentWeapon)
+		return;
+	CurrentWeapon->StopFire();
 }
