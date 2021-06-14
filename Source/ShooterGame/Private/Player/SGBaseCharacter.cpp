@@ -28,6 +28,7 @@ ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
 	SpringArmComponent->SetupAttachment(GetRootComponent());
 	SpringArmComponent->bUsePawnControlRotation = true;
+	SpringArmComponent->SocketOffset = FVector(0.0f, 100.0f, 80.0f);
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
@@ -36,6 +37,7 @@ ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
 
 	HealthTextRenderComponent = CreateDefaultSubobject<UTextRenderComponent>("HealthTextRenderComponent");
 	HealthTextRenderComponent->SetupAttachment(GetRootComponent());
+	HealthTextRenderComponent->SetOwnerNoSee(true);
 }
 
 // Called when the game starts or when spawned

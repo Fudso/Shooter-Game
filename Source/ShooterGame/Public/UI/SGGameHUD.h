@@ -13,5 +13,11 @@ UCLASS()
 class SHOOTERGAME_API ASGGameHUD : public AHUD
 {
 	GENERATED_BODY()
+
+public:
+	virtual void DrawHUD() override;
+
+private:
+	void DrawCrossHair();
 	
 };
