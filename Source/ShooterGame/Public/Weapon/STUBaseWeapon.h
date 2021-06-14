@@ -23,4 +23,7 @@ protected:
 	virtual void BeginPlay() override;
 
 
+public:
+	virtual void Fire();
+
 };
