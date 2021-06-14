@@ -16,6 +16,8 @@
 #include "CustomComponents/SGCharacterMovementComponent.h"
 #include "CustomComponents/SGHealthComponent.h"
 
+#include "Weapon/STUBaseWeapon.h"
+
 // Sets default values
 ASGBaseCharacter::ASGBaseCharacter(const FObjectInitializer& ObjInit)
 	: Super(ObjInit.SetDefaultSubobjectClass<USGCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -47,6 +49,8 @@ void ASGBaseCharacter::BeginPlay()
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASGBaseCharacter::OnHealthChanged);
 
 	OnHealthChanged(HealthComponent->GetHealth());
+
+	SpawnWeapon();
 }
 
 // Called every frame
@@ -152,4 +156,18 @@ void ASGBaseCharacter::OnGroundLanded(const FHitResult& HitResult)
 		LandedDamageVelocity, LandedDamage, fallVelocityZ);
 
 	TakeDamage(FinalDamage, FDamageEvent(), nullptr, nullptr);
+}
+
+
+void ASGBaseCharacter ::SpawnWeapon()
+{
+	if (!GetWorld()) return;
+	
+	const auto Weapon = GetWorld()->SpawnActor<ASTUBaseWeapon>(WeaponClass);
+	if (Weapon)
+	{
+		FAttachmentTransformRules AttachmentRule(EAttachmentRule::SnapToTarget,false);
+		Weapon->AttachToComponent(GetMesh(), AttachmentRule, "WeaponSocket");
+	}
+	
 }
