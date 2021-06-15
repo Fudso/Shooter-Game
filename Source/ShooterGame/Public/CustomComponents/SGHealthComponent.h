@@ -51,6 +51,12 @@ protected:
 	float AutoHealValue = 1.0;
 
 	
+    UFUNCTION(BlueprintCallable, Category = "Health")
+	FString GetHealthPercent() const
+	{
+		return FString::FromInt(static_cast<int32>(GetHealth()));
+	}
+	
 private:
 	float Health = 0.0f;
 

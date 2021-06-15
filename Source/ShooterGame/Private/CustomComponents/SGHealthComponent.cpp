@@ -22,7 +22,7 @@ void USGHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	check(MaxHealth > 0);
 
 	SetHealth(MaxHealth);
 
