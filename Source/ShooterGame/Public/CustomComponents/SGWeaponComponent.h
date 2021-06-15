@@ -9,17 +9,6 @@
 
 class ASTUBaseWeapon;
 
-USTRUCT(BlueprintType)
-struct FWeaponData
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-	TSubclassOf<ASTUBaseWeapon> WeaponClass;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-	UAnimMontage* ReloadAnimMontage;
-};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SHOOTERGAME_API USGWeaponComponent : public UActorComponent
@@ -35,7 +24,8 @@ public:
 	void NextWeapon();
 	void Reload();
 
-	bool GetWeaponUIData(FWeaponUIData& UIData) const;
+	bool GetCurrentWeaponUIData(FWeaponUIData& UIData) const;
+	bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
 	
 protected:
 	// Called when the game starts

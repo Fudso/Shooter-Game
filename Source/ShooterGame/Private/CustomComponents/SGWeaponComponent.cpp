@@ -203,11 +203,21 @@ void USGWeaponComponent::ChangeClip()
 	PlayAnimMontage(CurrentReloadAnimMontage);
 }
 
-bool USGWeaponComponent::GetWeaponUIData(FWeaponUIData& UIData) const
+bool USGWeaponComponent::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 {
 	if (CurrentWeapon)
 	{
 		UIData = CurrentWeapon->GetUIData();
+		return true;
+	}
+	return false;
+}
+
+bool USGWeaponComponent::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
+{
+	if (CurrentWeapon)
+	{
+		AmmoData = CurrentWeapon->GetAmmoData();
 		return true;
 	}
 	return false;
