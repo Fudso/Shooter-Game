@@ -55,6 +55,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void OnDeath();
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool IsRunning() const;
@@ -81,7 +83,7 @@ private:
 	void MoveRight(float Amount);
 	void OnStartRunning();
 	void OnFinishRunning();
-	void OnDeath();
+	
 	void OnHealthChanged(float Health);
 
 	UFUNCTION()
