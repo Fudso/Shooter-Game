@@ -69,5 +69,13 @@ void ASTURiffleWeapon::MakeDamage(const FHitResult& HitResult)
 	if (!DamagedActor)
 		return;
 
-	DamagedActor->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerController(), this);
+	FPointDamageEvent PointDamageEvent;
+	PointDamageEvent.HitInfo = HitResult;
+	DamagedActor->TakeDamage(DamageAmount, PointDamageEvent, GetController(), this);
+}
+
+AController* ASTURiffleWeapon::GetController() const
+{
+	const auto Pawn = Cast<APawn>(GetOwner());
+	return Pawn ? Pawn->GetController() : nullptr;
 }
