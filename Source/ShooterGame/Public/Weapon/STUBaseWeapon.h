@@ -38,6 +38,8 @@ public:
 	{
 		return CurrentAmmo;
 	}
+
+	bool IsAmmoEmpty() const;
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -67,7 +69,6 @@ protected:
 	void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
 
 	void DecreaseAmmo();
-	bool IsAmmoEmpty() const;
 	bool IsClipEmpty() const;
 	void LogAmmo();
 

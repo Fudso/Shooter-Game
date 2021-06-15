@@ -11,6 +11,7 @@ ASTUAIController::ASTUAIController()
 {
 	STUAIPerceptionComponent = CreateDefaultSubobject<USTUAIPerceptionComponent>("STUPerceptionComponent");
 	SetPerceptionComponent(*STUAIPerceptionComponent);
+	
 }
 void ASTUAIController::OnPossess(APawn* InPawn)
 {
