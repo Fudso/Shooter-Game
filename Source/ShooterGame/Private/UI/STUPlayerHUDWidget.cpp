@@ -3,6 +3,7 @@
 
 #include "UI/STUPlayerHUDWidget.h"
 #include "CustomComponents//SGHealthComponent.h"
+#include "CustomComponents//SGWeaponComponent.h"
 
 int32 USTUPlayerHUDWidget::GetHealthPercent() const
 {
@@ -16,4 +17,18 @@ int32 USTUPlayerHUDWidget::GetHealthPercent() const
 		return 0;
 
 	return static_cast<int32>(HealthComponent->GetHealth());
+}
+
+bool USTUPlayerHUDWidget::GetWeaponUIData(FWeaponUIData& UIData) const
+{
+	const auto Player = GetOwningPlayerPawn();
+	if (!Player)
+		return false;
+
+	const auto Component = Player->GetComponentByClass(USGWeaponComponent::StaticClass());
+	const auto WeaponComponent = Cast<USGWeaponComponent>(Component);
+	if (!WeaponComponent)
+		return false;
+
+	return WeaponComponent->GetWeaponUIData(UIData);
 }

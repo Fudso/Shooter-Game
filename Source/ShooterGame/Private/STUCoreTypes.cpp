@@ -3,10 +3,3 @@
 
 #include "STUCoreTypes.h"
 
-STUCoreTypes::STUCoreTypes()
-{
-}
-
-STUCoreTypes::~STUCoreTypes()
-{
-}

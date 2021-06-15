@@ -14,9 +14,6 @@ class SHOOTERGAME_API ASGGameHUD : public AHUD
 {
 	GENERATED_BODY()
 
-public:
-	virtual void DrawHUD() override;
-
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
@@ -24,7 +21,5 @@ protected:
 
 	virtual void BeginPlay() override;
 
-private:
-	void DrawCrossHair();
 	
 };

@@ -3,13 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "STUCoreTypes.generated.h"
 
-/**
- * 
- */
-class SHOOTERGAME_API STUCoreTypes
+USTRUCT(BlueprintType)
+struct FWeaponUIData
 {
-public:
-	STUCoreTypes();
-	~STUCoreTypes();
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UTexture2D* MainIcon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	UTexture2D* CrossHairIcon;
 };

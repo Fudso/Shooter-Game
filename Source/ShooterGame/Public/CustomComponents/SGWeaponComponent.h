@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include  "STUCoreTypes.h"
 #include "SGWeaponComponent.generated.h"
 
 class ASTUBaseWeapon;
@@ -33,6 +34,8 @@ public:
 	void StopFire();
 	void NextWeapon();
 	void Reload();
+
+	bool GetWeaponUIData(FWeaponUIData& UIData) const;
 	
 protected:
 	// Called when the game starts
