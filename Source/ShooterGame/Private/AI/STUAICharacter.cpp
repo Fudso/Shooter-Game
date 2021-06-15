@@ -7,7 +7,7 @@
 
 ASTUAICharacter::ASTUAICharacter(const FObjectInitializer& ObjInit) : Super(ObjInit)
 {
-	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	AutoPossessAI = EAutoPossessAI::Disabled;
 	AIControllerClass = ASTUAIController::StaticClass();
 
 	bUseControllerRotationYaw = false;

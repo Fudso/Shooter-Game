@@ -21,6 +21,8 @@ void ASTUAIController::OnPossess(APawn* InPawn)
 	{
 		RunBehaviorTree(STUCharacter->BehaviorTreeAsset);
 	}
+
+	bWantsPlayerState = true;
 }
 
 void ASTUAIController::Tick(float DeltaTime)

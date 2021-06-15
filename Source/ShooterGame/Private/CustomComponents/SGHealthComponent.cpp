@@ -4,7 +4,7 @@
 #include "CustomComponents/SGHealthComponent.h"
 
 #include "GameFramework/Actor.h"
-
+#include "SGGameModeBase.h"
 
 // Sets default values for this component's properties
 USGHealthComponent::USGHealthComponent()
@@ -79,6 +79,7 @@ void USGHealthComponent::OnTakeAnyDamage(
 
 	if (IsDead())
 	{
+		Killed(InstigatedBy);
 		OnDeath.Broadcast();
 	}
 }
@@ -140,4 +141,19 @@ void USGHealthComponent::OnAutoHealUpdateTimeout()
 	const float CurrentHealth = Health + AutoHealValue;
 
 	SetHealth(CurrentHealth);
+}
+
+void USGHealthComponent::Killed(AController* KillerController)
+{
+	if (!GetWorld())
+		return;
+
+	const auto GameMode = Cast<ASGGameModeBase>(GetWorld()->GetAuthGameMode());
+	if (!GameMode)
+		return;
+
+	const auto Player = Cast<APawn>(GetOwner());
+	const auto VictimController = Player ? Player->Controller : nullptr;
+
+	GameMode->Killed(KillerController, VictimController);
 }

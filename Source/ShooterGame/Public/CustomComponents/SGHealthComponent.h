@@ -27,6 +27,8 @@ public:
 	float GetHealth() const;
 	void SetHealth(float fHealth);
 
+	void Killed(AController* KillerController);
+
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const;
 
